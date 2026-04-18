@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "tag": "nemos_backpacks:iron_backpacks"
+    },
+    {
+      "item": "minecraft:cyan_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "nemos_backpacks:cyan_iron_backpack"
+  },
+  "group": "iron_backpack_dye"
+}

@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.devnemo.nemos.backpacks.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AbstractContainerMenuMixin",
+    "InventoryMenuMixin",
+    "InventoryMixin",
+    "ItemMixin",
+    "ServerGamePacketListenerImplMixin",
+    "SmithingTemplateItemMixin"
+  ],
+  "client": [
+    "client.AbstractContainerScreenMixin",
+    "client.CreativeModeInventoryScreenMixin",
+    "client.GuiMixin",
+    "client.LocalPlayerMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
