@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "tag": "nemos_backpacks:diamond_backpacks"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "nemos_backpacks:white_diamond_backpack"
+  },
+  "group": "diamond_backpack_dye"
+}

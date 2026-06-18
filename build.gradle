@@ -1,0 +1,114 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.42-beta'
+    id 'maven-publish'
+}
+
+// MOD_VERSION env var is set by the release CI from gradle.properties,
+// falling back to the gradle.properties `version` for local builds.
+version = providers.environmentVariable("MOD_VERSION").getOrElse(project.version)
+group = project.group
+
+base {
+    archivesName = "nemos-backpacks-neoforge"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neoforge_version
+
+    parchment {
+        minecraftVersion = project.parchment_minecraft
+        mappingsVersion = project.parchment_version
+    }
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        server {
+            server()
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    var replaceProperties = [
+        minecraft_version: project.minecraft_version,
+        minecraft_version_range: project.minecraft_version_range,
+        neoforge_version: project.neoforge_version,
+        neoforge_loader_version_range: project.neoforge_loader_version_range,
+        mod_id: project.mod_id,
+        mod_name: project.mod_name,
+        mod_author: project.mod_author,
+        version: project.version,
+        license: project.license,
+        description: project.description,
+        credits: project.credits,
+    ]
+
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            // Publish under cz.sajmonoriginal so the modpack's
+            // bump-mod.yml pattern (cz/sajmonoriginal/<slug>/<slug>/...) works.
+            // Upstream group/id stay untouched for runtime mod identification.
+            groupId = "cz.sajmonoriginal.nemos-backpacks-neoforge"
+            artifactId = "nemos-backpacks-neoforge"
+            version = project.version
+            from components.java
+        }
+    }
+    repositories {
+        // Local file repo for `./gradlew publish` without creds.
+        maven {
+            name = "localFile"
+            url = "file://${project.projectDir}/repo"
+        }
+
+        // Sajmon's Maven (Reposilite). Credentials come from MAVEN_USERNAME
+        // and MAVEN_TOKEN env vars set by the GitHub Actions release workflow.
+        // Skipped silently for local builds where the env vars aren't set.
+        maven {
+            name = "sajmon"
+            url = "https://maven.sajmon.gg/releases"
+            credentials {
+                username = providers.environmentVariable("MAVEN_USERNAME").orNull
+                password = providers.environmentVariable("MAVEN_TOKEN").orNull
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}
+
+// Gradle module metadata isn't useful for downstream mod consumers.
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}

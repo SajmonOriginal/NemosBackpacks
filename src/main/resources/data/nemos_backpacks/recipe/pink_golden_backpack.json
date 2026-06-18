@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "tag": "nemos_backpacks:golden_backpacks"
+    },
+    {
+      "item": "minecraft:pink_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "nemos_backpacks:pink_golden_backpack"
+  },
+  "group": "golden_backpack_dye"
+}

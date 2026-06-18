@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "tag": "nemos_backpacks:backpacks"
+    },
+    {
+      "item": "minecraft:brown_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "nemos_backpacks:brown_backpack"
+  },
+  "group": "backpack_dye"
+}
